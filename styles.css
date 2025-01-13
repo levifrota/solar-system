@@ -62,40 +62,61 @@
   font-weight: 600;
   cursor: pointer;
 }
-#planets button:hover{
-  background-color: #2980b9;
-}
 
 #mercury {
   background-color: #6E6E6E;
+  &:hover {
+    background-color: rgba(110, 110, 110, 0.8);
+  }
 }
 
 #venus {
   background-color: #E5C77F;
+  &:hover {
+    background-color: rgba(229, 199, 127, 0.8);
+  }
 }
 
 #earth {
   background-color: #2A94D6;
+  &:hover {
+    background-color: rgba(42, 148, 214, 0.8);
+  }
 }
 
 #mars {
   background-color: #C1440E;
+  &:hover {
+    background-color: rgba(193, 68, 14, 0.8);
+  }
 }
 
 #jupiter {
   background-color: #D3A35E;
+  &:hover {
+    background-color: rgba(211, 163, 94, 0.8);
+  }
 }
 
 #saturn {
   background-color: #E8D5A8;
+  &:hover {
+    background-color: rgba(232, 213, 168, 0.8);
+  }
 }
 
 #uranus {
   background-color: #76D7C4;
+  &:hover {
+    background-color: rgba(118, 215, 196, 0.8);
+  }
 }
 
 #neptune {
   background-color: #2E86C1;
+  &:hover {
+    background-color: rgba(46, 134, 193, 0.8);
+  }
 }
 
 #informacoes{
@@ -135,4 +156,8 @@ h1{
 #backButton{
   position: absolute;
   margin-left: 20px;
+}
+
+.hidden{
+  display: none;
 }
