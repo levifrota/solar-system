@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sistema Solar 3D</title>
+  <link rel="stylesheet" href="styles.css">
   <style>
     body {
       overflow: hidden;
@@ -13,5 +14,68 @@
   <script src="solar_system.js" type="module"></script>
 </head>
 <body>
+  <!-- esconde todos os botoes e deixa apenas o botao view com a imagem 3d de fundo -->
+  <button id="botaoView">View</button>
+  
+  <div id="velocidade">
+    <button>+</button>
+    <p>10</p>
+    <button>-</button>
+  </div>
+
+  <div id="planetButtons">
+    <div id="planets">
+      <button id="mercury">Mercúrio</button>
+      <button id="venus">Vênus</button>
+      <button id="earth">Terra</button>
+      <button id="mars">Marte</button>
+      <button id="jupiter">Júpiter</button>
+      <button id="saturn">Saturno</button>
+      <button id="uranus">Urano</button>
+      <button id="neptune">Netuno</button>
+    </div>
+  </div>
+
+  <div id="informacoes" class="hidden">
+    <!-- botao para esconder somente as informaçoes -->
+    <button id="backButton" onclick="exibirInformacoes()">back</button>
+    <div>
+      <h1 id="infoTitle"></h1>
+      <h3 id="infoDescription"></h3>
+    </div>
+  </div>
+  
 </body>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const informacoes = document.getElementById("informacoes");
+    setTimeout(() => {
+      informacoes.classList.remove("hidden");
+      informacoes.classList.add("active");
+    }, 1000);
+  });
+
+  const planetButtons = document.querySelectorAll("#planetButtons button");
+  planetButtons.forEach(button => {
+    button.addEventListener("click", (e) => {
+      const planetName = e.target.id;
+      showPlanetInfo(planetName);
+    });
+  });
+
+  function showPlanetInfo(planetName) {
+    const planetInfo = planetInfos.find(p => p.nome.toLowerCase() === planetName);
+    
+    if (planetInfo) {
+      const planetNameElement = document.getElementById("planetName");
+      const planetDescriptionElement = document.getElementById("planetDescription");
+      
+      planetNameElement.textContent = planetInfo.nome;
+      planetDescriptionElement.textContent = planetInfo.descricao;
+      
+      document.getElementById("informacoes").classList.remove("hidden");
+    }
+  }
+</script>
 </html>

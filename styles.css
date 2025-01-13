@@ -1,0 +1,138 @@
+
+#botaoView{
+    position: fixed;
+    right: 20px;
+    top: 10%;
+    transform: translateY(-50%);
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#botaoView:hover {
+    background-color: #2980b9;
+}
+
+#velocidade{
+  text-align: center;
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px;
+  background-color: #308cca;
+  border-radius: 50px;
+}
+
+#velocidade button{
+  background-color: #1d78b4;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+#velocidade button:hover{
+  background-color: #2980b9;  
+}
+
+#planetButtons{
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  z-index: 10;
+}
+
+#planetButtons div{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#planets button{
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+#planets button:hover{
+  background-color: #2980b9;
+}
+
+#mercury {
+  background-color: #6E6E6E;
+}
+
+#venus {
+  background-color: #E5C77F;
+}
+
+#earth {
+  background-color: #2A94D6;
+}
+
+#mars {
+  background-color: #C1440E;
+}
+
+#jupiter {
+  background-color: #D3A35E;
+}
+
+#saturn {
+  background-color: #E8D5A8;
+}
+
+#uranus {
+  background-color: #76D7C4;
+}
+
+#neptune {
+  background-color: #2E86C1;
+}
+
+#informacoes{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 37%;
+  z-index: 8;
+  background: rgba(0, 0, 0, 0.7); 
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+
+}
+
+#informacoes.active {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+#informacoes div{
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  color: white;
+  padding: 0 20%;
+}
+
+h1{
+  padding: 0;
+  margin: 20px 0 0 0;
+}
+
+#backButton{
+  position: absolute;
+  margin-left: 20px;
+}

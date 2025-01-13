@@ -46,81 +46,163 @@ const createPlanet = (size, texture, x) => {
 const sun = createPlanet(5, textures.sun, 0);
 scene.add(sun);
 
+let speedMultiplier = 10;
+
 const planets = [
-    { mesh: createPlanet(0.5, textures.mercury, 8), distance: 8, speed: 0.02 },
-    { mesh: createPlanet(0.7, textures.venus, 12), distance: 12, speed: 0.015 },
-    { mesh: createPlanet(0.8, textures.earth, 16), distance: 16, speed: 0.01 },
-    { mesh: createPlanet(0.6, textures.mars, 20), distance: 20, speed: 0.008 },
-    { mesh: createPlanet(2, textures.jupiter, 28), distance: 28, speed: 0.005 },
-    { mesh: createPlanet(1.5, textures.saturn, 36), distance: 36, speed: 0.004, rings: true, name: 'saturn' },
-    { mesh: createPlanet(1.2, textures.uranus, 44), distance: 44, speed: 0.003, rings: true, name: 'uranus' },  
-    { mesh: createPlanet(1.1, textures.neptune, 52), distance: 52, speed: 0.002 }
+    { mesh: createPlanet(0.5, textures.mercury, 8), distance: 8, speed: 0.02 * speedMultiplier },
+    { mesh: createPlanet(0.7, textures.venus, 12), distance: 12, speed: 0.015 * speedMultiplier },
+    { mesh: createPlanet(0.8, textures.earth, 16), distance: 16, speed: 0.01 * speedMultiplier },
+    { mesh: createPlanet(0.6, textures.mars, 20), distance: 20, speed: 0.008 * speedMultiplier },
+    { mesh: createPlanet(2, textures.jupiter, 28), distance: 28, speed: 0.005 * speedMultiplier },
+    { mesh: createPlanet(1.5, textures.saturn, 36), distance: 36, speed: 0.004 * speedMultiplier, rings: true, name: 'saturn' },
+    { mesh: createPlanet(1.2, textures.uranus, 44), distance: 44, speed: 0.003 * speedMultiplier, rings: true, name: 'uranus' },  
+    { mesh: createPlanet(1.1, textures.neptune, 52), distance: 52, speed: 0.002 * speedMultiplier }
 ];
+
+var orbit = true
 
 planets.forEach((planet) => {
     scene.add(planet.mesh);
+    if(orbit === true){
 
-    // Adiciona trajetória
-    const trajectoryGeometry = new THREE.RingGeometry(planet.distance - 0.05, planet.distance + 0.05, 64);
-    const trajectoryMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
-    const trajectory = new THREE.Mesh(trajectoryGeometry, trajectoryMaterial);
-    trajectory.rotation.x = Math.PI / 2;
-    scene.add(trajectory);
-
-    if (planet.rings) {
-      if (planet.name === 'saturn') {
-        const ringGeometry = new THREE.RingGeometry(2, 3, 128);
-        const ringMaterial = new THREE.MeshStandardMaterial({ 
-            map: textures.saturnRings,
-            side: THREE.DoubleSide,
-            transparent: true
-        });
-        const saturnRings = new THREE.Mesh(ringGeometry, ringMaterial);
-        saturnRings.rotation.x = Math.PI / 2;
-        planet.ringsMesh = saturnRings;
-        planet.mesh.add(saturnRings);
-      } else if (planet.name === 'uranus') {
-        const ringGeometry = new THREE.RingGeometry(1.5, 2.5, 128);
-        const ringMaterial = new THREE.MeshStandardMaterial({ 
-            map: textures.uranusRings,
-            side: THREE.DoubleSide,
-            transparent: true
-        });
-        const uranusRings = new THREE.Mesh(ringGeometry, ringMaterial);
-        uranusRings.rotation.x = Math.PI / 2;
-        planet.ringsMesh = uranusRings;
-        planet.mesh.add(uranusRings);
-      }
+        const trajectoryGeometry = new THREE.RingGeometry(planet.distance - 0.05, planet.distance + 0.05, 64);
+        const trajectoryMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
+        const trajectory = new THREE.Mesh(trajectoryGeometry, trajectoryMaterial);
+        trajectory.rotation.x = Math.PI / 2;
+        scene.add(trajectory);
     }
 });
 
-camera.position.z = 60;
+// Configuração inicial da câmera
+camera.position.set(40, 20, 60);
 
-let targetSpeedMultiplier = 1;
-let currentSpeedMultiplier = 1;
+let selectedPlanet = null;
+let selectedPlanetOrbitAngle = 0; // Ângulo inicial da órbita do planeta selecionado
 
-window.addEventListener('keydown', (e) => {
-    if (e.key === '+' || e.key === '=') targetSpeedMultiplier += 0.1;
-    if (e.key === '-' || e.key === '_') targetSpeedMultiplier = Math.max(0.1, targetSpeedMultiplier - 0.1);
-    if (e.key === 'ArrowUp') targetSpeedMultiplier += 0.05;
-    if (e.key === 'ArrowDown') targetSpeedMultiplier = Math.max(0.1, targetSpeedMultiplier - 0.05);
-});
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
 
+const onPlanetClick = (event) => {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    raycaster.setFromCamera(mouse, camera);
+
+    const intersects = raycaster.intersectObjects(planets.map(p => p.mesh));
+
+    if (intersects.length > 0) {
+        selectedPlanet = intersects[0].object;
+        console.log(intersects)
+        selectedPlanetOrbitAngle = 0;
+    }
+};
+
+window.addEventListener('click', onPlanetClick);
+
+// Animação
 const animate = () => {
     requestAnimationFrame(animate);
 
-    currentSpeedMultiplier += (targetSpeedMultiplier - currentSpeedMultiplier) * 0.1; // Suaviza a transição
-
-    sun.rotation.y += 0.01;
+    sun.rotation.y += 0.001;
     planets.forEach((planet) => {
-        planet.mesh.rotation.y += 0.01; // Rotação própria
-        const angle = Date.now() * 0.001 * planet.speed * currentSpeedMultiplier;
+        planet.mesh.rotation.y += 0.01;
+        const angle = Date.now() * 0.001 * planet.speed;
         planet.mesh.position.x = Math.cos(angle) * planet.distance;
         planet.mesh.position.z = Math.sin(angle) * planet.distance;
+
+        if (selectedPlanet === planet.mesh) {
+            selectedPlanetOrbitAngle = angle;
+        }
     });
+
+    // Acompanhamento da câmera
+    if (selectedPlanet) {
+        const planetInfo = planets.find(p => p.mesh === selectedPlanet);
+        const radius = planetInfo.distance;
+        const cameraOffset = new THREE.Vector3(3, 2, 3);
+
+        const cameraX = Math.cos(selectedPlanetOrbitAngle) * (radius + cameraOffset.x);
+        const cameraZ = Math.sin(selectedPlanetOrbitAngle) * (radius + cameraOffset.z);
+        const cameraY = cameraOffset.y;
+
+        camera.position.lerp(new THREE.Vector3(cameraX, cameraY, cameraZ), 0.05);
+        camera.lookAt(selectedPlanet.position);
+    }
 
     controls.update();
     renderer.render(scene, camera);
 };
 
 animate();
+
+const planetInfos = [
+    {
+        nome: "Mercúrio",
+        descricao: "É o planeta mais próximo do Sol e o menor do Sistema Solar. Não possui atmosfera significativa e tem temperaturas extremas, variando de -180°C à noite a 430°C durante o dia. Possui uma rotação lenta, e um dia (do nascer ao pôr do sol) dura cerca de 176 dias terrestres."
+    },
+    {
+        nome: "Vênus",
+        descricao: "Vênus, conhecido como o 'irmão gêmeo da Terra' devido ao seu tamanho e composição similares, tem uma atmosfera densa composta principalmente de dióxido de carbono, criando um efeito estufa extremo. A temperatura média na superfície é de cerca de 467°C, tornando-o o planeta mais quente do Sistema Solar."
+    },
+    {
+        nome: "Terra",
+        descricao: "Terra é o único planeta conhecido por abrigar vida, devido à sua atmosfera rica em oxigênio e água líquida em sua superfície. Ela tem um campo magnético que protege contra radiações solares prejudiciais. Sua órbita ao redor do Sol leva cerca de 365,25 dias, o que define um ano."
+    },
+    {
+        nome: "Marte",
+        descricao: "Marte, conhecido como o 'Planeta Vermelho' devido à sua superfície rica em óxido de ferro, possui a maior montanha do Sistema Solar, o Monte Olimpo, e um sistema de vales e desfiladeiros gigantescos. Marte tem calotas polares de dióxido de carbono e água congelada."
+    },
+    {
+        nome: "Júpiter",
+        descricao: "Júpiter, o maior planeta do Sistema Solar, tem uma massa mais de 300 vezes maior que a da Terra. É um gigante gasoso composto principalmente de hidrogênio e hélio, e sua Grande Mancha Vermelha é uma tempestade gigante que já dura séculos."
+    },
+    {
+        nome: "Saturno",
+        descricao: "Saturno é famoso pelos seus anéis, compostos de partículas de gelo e rocha. Também é um gigante gasoso, similar a Júpiter, e tem dezenas de luas, incluindo Titã, que possui uma atmosfera densa. O planeta é composto principalmente de hidrogênio e hélio e tem uma gravidade muito baixa."
+    },
+    {
+        nome: "Urano",
+        descricao: "Urano é um gigante gasoso com uma rotação peculiar, já que gira praticamente de lado em relação ao plano da sua órbita. Seu eixo de rotação é inclinado em cerca de 98°, tornando seus dias e estações muito peculiares. É composto principalmente de hidrogênio, hélio e água, amônia e metano, que lhe conferem uma cor azul-esverdeada."
+    },
+    {
+        nome: "Netuno",
+        descricao: "Netuno, o planeta mais distante do Sol e o último do Sistema Solar, possui uma atmosfera composta de hidrogênio, hélio e metano, que lhe dá sua cor azul intensa. Netuno é conhecido por seus ventos extremamente fortes, os mais rápidos do Sistema Solar, e tem uma tempestade permanente chamada Grande Mancha Escura."
+    }
+];
+
+
+
+// Elementos de informações
+const infoDiv = document.getElementById("informacoes");
+const infoTitle = document.getElementById("infoTitle");
+const infoDescription = document.getElementById("infoDescription");
+const view = document.getElementById("botaoView");
+
+const viewMode=()=>{
+    camera.position.set(40, 20, 60);
+    selectedPlanet = null;
+}
+
+const showPlanetInfo = (planetName) => {
+  const planet = planetInfos.find((p) => p.nome === planetName);
+  
+  if (planet) {
+    infoTitle.textContent = planet.nome;
+    infoDescription.textContent = planet.descricao;
+    infoDiv.classList.remove("hidden");
+  }
+};
+
+const buttonview = document.querySelectorAll("#botaoView");
+buttonview.forEach((button) => {
+    button.addEventListener("click", viewMode);
+})
+
+// Adicionar eventos aos botões de planetas
+const planetButtons = document.querySelectorAll("#planets button");
+planetButtons.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    const planetName = event.target.textContent;
+    showPlanetInfo(planetName);
+  });
+});
