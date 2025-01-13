@@ -183,14 +183,22 @@ const viewMode=()=>{
     selectedPlanet = null;
 }
 
+let showInfoPlanet = null;
+
 const showPlanetInfo = (planetName) => {
-  const planet = planetInfos.find((p) => p.nome === planetName);
-  
-  if (planet) {
-    infoTitle.textContent = planet.nome;
-    infoDescription.textContent = planet.descricao;
-    infoDiv.classList.remove("hidden");
-  }
+    if (showInfoPlanet === planetName) {
+        infoDiv.classList.remove("active");
+        showInfoPlanet = null;
+    } else {
+        const planet = planetInfos.find((p) => p.nome === planetName);
+
+        if (planet) {
+            infoTitle.textContent = planet.nome;
+            infoDescription.textContent = planet.descricao;
+            infoDiv.classList.add("active");
+            showInfoPlanet = planetName;
+        }
+    }
 };
 
 const buttonview = document.querySelectorAll("#botaoView");
