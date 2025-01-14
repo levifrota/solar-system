@@ -11,15 +11,28 @@
       margin: 0px;
     }
   </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const informacoes = document.getElementById("informacoes");
+      setTimeout(() => {
+        informacoes.classList.remove("hidden");
+        informacoes.classList.add("active");
+      }, 1000);
+    });
+  </script>
+  <script src="solar_system.js" type="module"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.min.js"></script>
+
 </head>
 <body>
   <!-- esconde todos os botoes e deixa apenas o botao view com a imagem 3d de fundo -->
   <button id="botaoView">View</button>
   
   <div id="velocidade">
-    <button>+</button>
-    <p>10</p>
-    <button>-</button>
+    <button id="velocidadeMais">+</button>
+    <p id="velocidadeDisplay">10</p>
+    <button id="velocidadeMenos">-</button>
   </div>
 
   <div id="planetButtons">
@@ -41,38 +54,5 @@
       <h3 id="infoDescription"></h3>
     </div>
   </div>
-  
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const informacoes = document.getElementById("informacoes");
-      setTimeout(() => {
-        informacoes.classList.remove("hidden");
-        informacoes.classList.add("active");
-      }, 1000);
-    });
-  
-    const planetButtons = document.querySelectorAll("#planetButtons button");
-    planetButtons.forEach(button => {
-      button.addEventListener("click", (e) => {
-        const planetName = e.target.id;
-        showPlanetInfo(planetName);
-      });
-    });
-  
-    function showPlanetInfo(planetName) {
-      const planetInfo = planetInfos.find(p => p.nome.toLowerCase() === planetName);
-      
-      if (planetInfo) {
-        const planetNameElement = document.getElementById("planetName");
-        const planetDescriptionElement = document.getElementById("planetDescription");
-        
-        planetNameElement.textContent = planetInfo.nome;
-        planetDescriptionElement.textContent = planetInfo.descricao;
-        
-        document.getElementById("informacoes").classList.remove("hidden");
-      }
-    }
-  </script>
-  <script src="solar_system.js" type="module"></script>
 </body>
 </html>
