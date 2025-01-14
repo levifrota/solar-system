@@ -49,14 +49,14 @@ scene.add(sun);
 let speedMultiplier = 10;
 
 const planets = [
-    { mesh: createPlanet(0.5, textures.mercury, 8), distance: 8, speed: 0.02 * speedMultiplier, name: 'mercury' },
-    { mesh: createPlanet(0.7, textures.venus, 12), distance: 12, speed: 0.015 * speedMultiplier, name: 'venus' },
-    { mesh: createPlanet(0.8, textures.earth, 16), distance: 16, speed: 0.01 * speedMultiplier, name: 'earth' },
-    { mesh: createPlanet(0.6, textures.mars, 20), distance: 20, speed: 0.008 * speedMultiplier, name: 'mars' },
-    { mesh: createPlanet(2, textures.jupiter, 28), distance: 28, speed: 0.005 * speedMultiplier, name: 'jupiter' },
-    { mesh: createPlanet(1.5, textures.saturn, 36), distance: 36, speed: 0.004 * speedMultiplier, rings: true, name: 'saturn' },
-    { mesh: createPlanet(1.2, textures.uranus, 44), distance: 44, speed: 0.003 * speedMultiplier, rings: true, name: 'uranus' },  
-    { mesh: createPlanet(1.1, textures.neptune, 52), distance: 52, speed: 0.002 * speedMultiplier, name: 'neptune' }
+    { mesh: createPlanet(0.5, textures.mercury, 8), distance: 8, speed: 0.02 * speedMultiplier, baseSpeed: 0.02, name: 'mercury' },
+    { mesh: createPlanet(0.7, textures.venus, 12), distance: 12, speed: 0.015 * speedMultiplier, baseSpeed: 0.015, name: 'venus' },
+    { mesh: createPlanet(0.8, textures.earth, 16), distance: 16, speed: 0.01 * speedMultiplier, baseSpeed: 0.01, name: 'earth' },
+    { mesh: createPlanet(0.6, textures.mars, 20), distance: 20, speed: 0.008 * speedMultiplier, baseSpeed: 0.008, name: 'mars' },
+    { mesh: createPlanet(2, textures.jupiter, 28), distance: 28, speed: 0.005 * speedMultiplier, baseSpeed: 0.005, name: 'jupiter' },
+    { mesh: createPlanet(1.5, textures.saturn, 36), distance: 36, speed: 0.004 * speedMultiplier, baseSpeed: 0.004, rings: true, name: 'saturn' },
+    { mesh: createPlanet(1.2, textures.uranus, 44), distance: 44, speed: 0.003 * speedMultiplier, baseSpeed: 0.003, rings: true, name: 'uranus' },  
+    { mesh: createPlanet(1.1, textures.neptune, 52), distance: 52, speed: 0.002 * speedMultiplier, baseSpeed: 0.002, name: 'neptune' }
 ];
 
 var orbit = true
@@ -240,3 +240,32 @@ const buttonview = document.querySelectorAll("#botaoView");
 buttonview.forEach((button) => {
     button.addEventListener("click", viewMode);
 })
+
+
+
+
+
+const velocidadeMaisBtn = document.getElementById("velocidadeMais");
+const velocidadeMenosBtn = document.getElementById("velocidadeMenos");
+const velocidadeDisplay = document.getElementById("velocidadeDisplay");
+
+function updatePlanetSpeeds() {
+    planets.forEach((planet) => {
+        planet.speed = planet.baseSpeed * speedMultiplier;
+    });
+    velocidadeDisplay.textContent = speedMultiplier;
+}
+
+// Botão de aumentar velocidade
+velocidadeMaisBtn.addEventListener("click", () => {
+    speedMultiplier += 10;
+    updatePlanetSpeeds();
+});
+
+// Botão de diminuir velocidade
+velocidadeMenosBtn.addEventListener("click", () => {
+    if (speedMultiplier > 1) {
+        speedMultiplier -= 10;
+        updatePlanetSpeeds();
+    }
+});
