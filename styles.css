@@ -63,6 +63,21 @@
   cursor: pointer;
 }
 
+#viewOrbit {
+  position: fixed;
+    left: 20px;
+    top: 10%;
+    transform: translateY(-50%);
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+}
+
 #mercury {
   background-color: #6E6E6E;
   &:hover {

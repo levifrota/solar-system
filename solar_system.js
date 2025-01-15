@@ -63,12 +63,12 @@ var orbit = true
 
 planets.forEach((planet) => {
     scene.add(planet.mesh);
-    if(orbit === true){
-
+    if (orbit === true) {
         const trajectoryGeometry = new THREE.RingGeometry(planet.distance - 0.05, planet.distance + 0.05, 64);
         const trajectoryMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
         const trajectory = new THREE.Mesh(trajectoryGeometry, trajectoryMaterial);
         trajectory.rotation.x = Math.PI / 2;
+        trajectory.name = `orbit-${planet.name}`; // Nomeia a órbita para controle posterior
         scene.add(trajectory);
     }
 });
@@ -269,3 +269,19 @@ velocidadeMenosBtn.addEventListener("click", () => {
         updatePlanetSpeeds();
     }
 });
+
+
+let orbitsVisible = true;
+
+const toggleOrbitsVisibility = () => {
+    orbitsVisible = !orbitsVisible; // Inverte o estado das órbitas
+    planets.forEach((planet) => {
+        const trajectory = scene.getObjectByName(`orbit-${planet.name}`);
+        if (trajectory) {
+            trajectory.visible = orbitsVisible; // Altera a visibilidade da órbita
+        }
+    });
+};
+
+const viewOrbitBtn = document.getElementById("viewOrbit");
+viewOrbitBtn.addEventListener("click", toggleOrbitsVisibility);
