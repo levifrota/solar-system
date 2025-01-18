@@ -25,14 +25,14 @@
 
   <div id="planetButtons">
     <div id="planets">
-      <button id="mercury">Mercúrio</button>
-      <button id="venus">Vênus</button>
-      <button id="earth">Terra</button>
-      <button id="mars">Marte</button>
-      <button id="jupiter">Júpiter</button>
-      <button id="saturn">Saturno</button>
-      <button id="uranus">Urano</button>
-      <button id="neptune">Netuno</button>
+      <button id="mercury" data-index="0">Mercúrio</button>
+      <button id="venus" data-index="1">Vênus</button>
+      <button id="earth" data-index="2">Terra</button>
+      <button id="mars" data-index="3">Marte</button>
+      <button id="jupiter" data-index="4">Júpiter</button>
+      <button id="saturn" data-index="5">Saturno</button>
+      <button id="uranus" data-index="6">Urano</button>
+      <button id="neptune" data-index="7">Netuno</button>
     </div>
   </div>
 
@@ -77,5 +77,12 @@
       document.getElementById("informacoes").classList.remove("hidden");
     }
   }
+
+  toggleOrbitButton.addEventListener("click", () => {
+    orbit = !orbit; // Alterna o estado
+    orbits.forEach((trajectory) => {
+        trajectory.visible = orbit; // Atualiza a visibilidade de cada órbita
+    });
+});
 </script>
 </html>

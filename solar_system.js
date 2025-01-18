@@ -59,19 +59,17 @@ const planets = [
     { mesh: createPlanet(1.1, textures.neptune, 52), distance: 52, speed: 0.002 * speedMultiplier }
 ];
 
-var orbit = true
-
-planets.forEach((planet) => {
-    scene.add(planet.mesh);
-    if(orbit === true){
-
-        const trajectoryGeometry = new THREE.RingGeometry(planet.distance - 0.05, planet.distance + 0.05, 64);
-        const trajectoryMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
-        const trajectory = new THREE.Mesh(trajectoryGeometry, trajectoryMaterial);
-        trajectory.rotation.x = Math.PI / 2;
-        scene.add(trajectory);
-    }
-});
+// let orbit = true;
+// planets.forEach((planet) => {
+//     scene.add(planet.mesh);
+//     if(orbit === true){
+//         const trajectoryGeometry = new THREE.RingGeometry(planet.distance - 0.05, planet.distance + 0.05, 64);
+//         const trajectoryMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
+//         const trajectory = new THREE.Mesh(trajectoryGeometry, trajectoryMaterial);
+//         trajectory.rotation.x = Math.PI / 2;
+//         scene.add(trajectory);
+//     }
+// });
 
 // Configuração inicial da câmera
 camera.position.set(40, 20, 60);
@@ -94,7 +92,15 @@ const onPlanetClick = (event) => {
         selectedPlanet = intersects[0].object;
         console.log(intersects)
         selectedPlanetOrbitAngle = 0;
+        orbits.forEach((orbit) => {
+        orbit.visible = false; // Alternar visibilidade
+        if(orbitVisible==true){
+            camera.position.set(40, 20, 60);
+            selectedPlanet = null;
+        }
+    });
     }
+    
 };
 
 window.addEventListener('click', onPlanetClick);
@@ -102,7 +108,7 @@ window.addEventListener('click', onPlanetClick);
 // Animação
 const animate = () => {
     requestAnimationFrame(animate);
-
+    
     sun.rotation.y += 0.001;
     planets.forEach((planet) => {
         planet.mesh.rotation.y += 0.01;
@@ -117,7 +123,10 @@ const animate = () => {
 
     // Acompanhamento da câmera
     if (selectedPlanet) {
+        
         const planetInfo = planets.find(p => p.mesh === selectedPlanet);
+        // const planetIndex = planets.findIndex(p => p.mesh === selectedPlanet);
+        
         const radius = planetInfo.distance;
         const cameraOffset = new THREE.Vector3(3, 2, 3);
 
@@ -128,7 +137,7 @@ const animate = () => {
         camera.position.lerp(new THREE.Vector3(cameraX, cameraY, cameraZ), 0.05);
         camera.lookAt(selectedPlanet.position);
     }
-
+    
     controls.update();
     renderer.render(scene, camera);
 };
@@ -177,19 +186,34 @@ const infoDiv = document.getElementById("informacoes");
 const infoTitle = document.getElementById("infoTitle");
 const infoDescription = document.getElementById("infoDescription");
 const view = document.getElementById("botaoView");
-
+const planetButton = document.querySelectorAll("#planets button");
 const viewMode=()=>{
     camera.position.set(40, 20, 60);
     selectedPlanet = null;
 }
 
+planetButton.forEach((button, index) => {
+    button.addEventListener("click", () => {
+        orbits.forEach((orbit) => {
+            orbit.visible = false; // Alternar visibilidade
+            if(orbitVisible==true){
+                camera.position.set(40, 20, 60);
+                selectedPlanet = null;
+            }
+        });
+        selectedPlanet = planets[index].mesh;
+        selectedPlanetOrbitAngle = 0;
+    });
+    
+});
+
 const showPlanetInfo = (planetName) => {
   const planet = planetInfos.find((p) => p.nome === planetName);
-  
   if (planet) {
     infoTitle.textContent = planet.nome;
     infoDescription.textContent = planet.descricao;
     infoDiv.classList.remove("hidden");
+    
   }
 };
 
@@ -203,6 +227,41 @@ const planetButtons = document.querySelectorAll("#planets button");
 planetButtons.forEach((button) => {
   button.addEventListener("click", (event) => {
     const planetName = event.target.textContent;
+    orbits.forEach((orbit) => {
+        orbit.visible = false; // Alternar visibilidade
+        if(orbitVisible==true){
+            camera.position.set(40, 20, 60);
+            selectedPlanet = null;
+        }
+    });
     showPlanetInfo(planetName);
   });
+});
+
+let orbitVisible = true; // Controle da visibilidade das órbitas
+const orbits = []; // Lista para armazenar as órbitas
+
+planets.forEach((planet) => {
+    scene.add(planet.mesh);
+
+    const trajectoryGeometry = new THREE.RingGeometry(planet.distance - 0.05, planet.distance + 0.05, 64);
+    const trajectoryMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
+    const trajectory = new THREE.Mesh(trajectoryGeometry, trajectoryMaterial);
+    trajectory.rotation.x = Math.PI / 2;
+
+    // Adicionar órbita à cena e à lista
+    orbits.push(trajectory);
+    scene.add(trajectory);
+});
+
+// Botão para alternar visibilidade das órbitas
+document.getElementById('botaoView').addEventListener('click', () => {
+    orbitVisible = true; // Alternar estado
+    orbits.forEach((orbit) => {
+        orbit.visible = orbitVisible; // Alternar visibilidade
+        if(orbitVisible==true){
+            camera.position.set(40, 20, 60);
+            selectedPlanet = null;
+        }
+    });
 });
