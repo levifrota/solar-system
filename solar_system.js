@@ -63,14 +63,12 @@ var orbit = true
 
 planets.forEach((planet) => {
     scene.add(planet.mesh);
-    if (orbit === true) {
-        const trajectoryGeometry = new THREE.RingGeometry(planet.distance - 0.05, planet.distance + 0.05, 64);
-        const trajectoryMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
-        const trajectory = new THREE.Mesh(trajectoryGeometry, trajectoryMaterial);
-        trajectory.rotation.x = Math.PI / 2;
-        trajectory.name = `orbit-${planet.name}`; // Nomeia a órbita para controle posterior
-        scene.add(trajectory);
-    }
+    const trajectoryGeometry = new THREE.RingGeometry(planet.distance - 0.05, planet.distance + 0.05, 64);
+    const trajectoryMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, transparent: true, opacity: 0.3 });
+    const trajectory = new THREE.Mesh(trajectoryGeometry, trajectoryMaterial);
+    trajectory.rotation.x = Math.PI / 2;
+    trajectory.name = `orbit-${planet.name}`; // Nomeia a órbita para controle posterior
+    scene.add(trajectory);
 });
 
 // Configuração inicial da câmera
@@ -90,10 +88,12 @@ const onPlanetClick = (event) => {
     raycaster.setFromCamera(mouse, camera);
 
     const intersects = raycaster.intersectObjects(planets.map(p => p.mesh));
-
     if (intersects.length > 0) {
-        selectedPlanet = intersects[0].object;
-        selectedPlanetOrbitAngle = 0;
+        const clickedPlanet = intersects[0].object;
+        const planetData = planets.find(p => p.mesh === clickedPlanet);
+        if (planetData) {
+            showPlanetInfo(planetData.name);
+        }
     }
 };
 
@@ -118,16 +118,19 @@ const animate = () => {
     // Acompanhamento da câmera
     if (selectedPlanet) {
         const planetInfo = planets.find(p => p.mesh === selectedPlanet);
-        const radius = planetInfo.distance;
-        const cameraOffset = new THREE.Vector3(3, 2, 3);
-
-        const cameraX = Math.cos(selectedPlanetOrbitAngle) * (radius + cameraOffset.x);
-        const cameraZ = Math.sin(selectedPlanetOrbitAngle) * (radius + cameraOffset.z);
-        const cameraY = cameraOffset.y;
-
-        camera.position.lerp(new THREE.Vector3(cameraX, cameraY, cameraZ), 0.05);
-        camera.lookAt(selectedPlanet.position);
-    }
+        if (planetInfo) {
+            const radius = planetInfo.distance;
+            const cameraOffset = new THREE.Vector3(3, 2, 3);
+            const angle = selectedPlanetOrbitAngle;
+    
+            const cameraX = Math.cos(angle) * (radius + cameraOffset.x);
+            const cameraZ = Math.sin(angle) * (radius + cameraOffset.z);
+            const cameraY = cameraOffset.y;
+    
+            camera.position.lerp(new THREE.Vector3(cameraX, cameraY, cameraZ), 0.05);
+            camera.lookAt(selectedPlanet.position);
+        }
+    }    
 
     controls.update();
     renderer.render(scene, camera);
@@ -183,7 +186,6 @@ const planetInfos = [
 const infoDiv = document.getElementById("informacoes");
 const infoTitle = document.getElementById("infoTitle");
 const infoDescription = document.getElementById("infoDescription");
-const view = document.getElementById("botaoView");
 
 const viewMode=()=>{
     camera.position.set(40, 20, 60);
@@ -193,13 +195,9 @@ const viewMode=()=>{
 let showInfoPlanet = null;
 
 const showPlanetInfo = (planetName) => {
-    console.log("1a");
-    console.log(planetName);
-
     if (showInfoPlanet === planetName) {
         infoDiv.classList.remove("active");
         showInfoPlanet = null;
-        viewMode();
     } else {
         const planet = planetInfos.find((p) => p.identify === planetName);
 
@@ -241,10 +239,6 @@ buttonview.forEach((button) => {
     button.addEventListener("click", viewMode);
 })
 
-
-
-
-
 const velocidadeMaisBtn = document.getElementById("velocidadeMais");
 const velocidadeMenosBtn = document.getElementById("velocidadeMenos");
 const velocidadeDisplay = document.getElementById("velocidadeDisplay");
@@ -253,7 +247,7 @@ function updatePlanetSpeeds() {
     planets.forEach((planet) => {
         planet.speed = planet.baseSpeed * speedMultiplier;
     });
-    velocidadeDisplay.textContent = speedMultiplier;
+    velocidadeDisplay.textContent = speedMultiplier/10;
 }
 
 // Botão de aumentar velocidade
@@ -272,6 +266,7 @@ velocidadeMenosBtn.addEventListener("click", () => {
 
 
 let orbitsVisible = true;
+
 
 const toggleOrbitsVisibility = () => {
     orbitsVisible = !orbitsVisible; // Inverte o estado das órbitas
