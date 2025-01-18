@@ -21,7 +21,19 @@
       }, 1000);
     });
   </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const informacoes = document.getElementById("informacoes");
+      setTimeout(() => {
+        informacoes.classList.remove("hidden");
+        informacoes.classList.add("active");
+      }, 1000);
+    });
+  </script>
   <script src="solar_system.js" type="module"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.min.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.min.js"></script>
 
 </head>
