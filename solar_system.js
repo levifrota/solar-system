@@ -203,57 +203,57 @@ animate();
 
 const planetInfos = [
   {
-    nome: 'Mercúrio',
+    name: 'Mercúrio',
     identify: 'mercury',
-    descricao:
+    description:
       'É o planeta mais próximo do Sol e o menor do Sistema Solar. Não possui atmosfera significativa e tem temperaturas extremas, variando de -180°C à noite a 430°C durante o dia. Possui uma rotação lenta, e um dia (do nascer ao pôr do sol) dura cerca de 176 dias terrestres.',
   },
   {
-    nome: 'Vênus',
+    name: 'Vênus',
     identify: 'venus',
-    descricao:
+    description:
       "Vênus, conhecido como o 'irmão gêmeo da Terra' devido ao seu tamanho e composição similares, tem uma atmosfera densa composta principalmente de dióxido de carbono, criando um efeito estufa extremo. A temperatura média na superfície é de cerca de 467°C, tornando-o o planeta mais quente do Sistema Solar.",
   },
   {
-    nome: 'Terra',
+    name: 'Terra',
     identify: 'earth',
-    descricao:
+    description:
       'Terra é o único planeta conhecido por abrigar vida, devido à sua atmosfera rica em oxigênio e água líquida em sua superfície. Ela tem um campo magnético que protege contra radiações solares prejudiciais. Sua órbita ao redor do Sol leva cerca de 365,25 dias, o que define um ano.',
   },
   {
-    nome: 'Marte',
+    name: 'Marte',
     identify: 'mars',
-    descricao:
+    description:
       "Marte, conhecido como o 'Planeta Vermelho' devido à sua superfície rica em óxido de ferro, possui a maior montanha do Sistema Solar, o Monte Olimpo, e um sistema de vales e desfiladeiros gigantescos. Marte tem calotas polares de dióxido de carbono e água congelada.",
   },
   {
-    nome: 'Júpiter',
+    name: 'Júpiter',
     identify: 'jupiter',
-    descricao:
+    description:
       'Júpiter, o maior planeta do Sistema Solar, tem uma massa mais de 300 vezes maior que a da Terra. É um gigante gasoso composto principalmente de hidrogênio e hélio, e sua Grande Mancha Vermelha é uma tempestade gigante que já dura séculos.',
   },
   {
-    nome: 'Saturno',
+    name: 'Saturno',
     identify: 'saturn',
-    descricao:
+    description:
       'Saturno é famoso pelos seus anéis, compostos de partículas de gelo e rocha. Também é um gigante gasoso, similar a Júpiter, e tem dezenas de luas, incluindo Titã, que possui uma atmosfera densa. O planeta é composto principalmente de hidrogênio e hélio e tem uma gravidade muito baixa.',
   },
   {
-    nome: 'Urano',
+    name: 'Urano',
     identify: 'uranus',
-    descricao:
+    description:
       'Urano é um gigante gasoso com uma rotação peculiar, já que gira praticamente de lado em relação ao plano da sua órbita. Seu eixo de rotação é inclinado em cerca de 98°, tornando seus dias e estações muito peculiares. É composto principalmente de hidrogênio, hélio e água, amônia e metano, que lhe conferem uma cor azul-esverdeada.',
   },
   {
-    nome: 'Netuno',
+    name: 'Netuno',
     identify: 'neptune',
-    descricao:
+    description:
       'Netuno, o planeta mais distante do Sol e o último do Sistema Solar, possui uma atmosfera composta de hidrogênio, hélio e metano, que lhe dá sua cor azul intensa. Netuno é conhecido por seus ventos extremamente fortes, os mais rápidos do Sistema Solar, e tem uma tempestade permanente chamada Grande Mancha Escura.',
   },
 ];
 
 // Elementos de informações
-const infoDiv = document.getElementById('informacoes');
+const infoDiv = document.getElementById('informations');
 const infoTitle = document.getElementById('infoTitle');
 const infoDescription = document.getElementById('infoDescription');
 
@@ -274,8 +274,8 @@ const showPlanetInfo = (planetName) => {
     infoDiv.classList.remove('active');
     showInfoPlanet = null;
   } else {
-    infoTitle.textContent = planet.nome;
-    infoDescription.textContent = planet.descricao;
+    infoTitle.textContent = planet.name;
+    infoDescription.textContent = planet.description;
     infoDiv.classList.add('active');
     showInfoPlanet = planetName;
 
@@ -305,30 +305,30 @@ planetButtons.forEach((button) => {
   });
 });
 
-const buttonview = document.querySelectorAll('#botaoView');
-buttonview.forEach((button) => {
+const buttonView = document.querySelectorAll('#botaoView');
+buttonView.forEach((button) => {
   button.addEventListener('click', viewMode);
 });
 
-const velocidadeMaisBtn = document.getElementById('velocidadeMais');
-const velocidadeMenosBtn = document.getElementById('velocidadeMenos');
-const velocidadeDisplay = document.getElementById('velocidadeDisplay');
+const speedUpBtn = document.getElementById('speedUp');
+const speedDownBtn = document.getElementById('speedDown');
+const speedDisplay = document.getElementById('speedDisplay');
 
 function updatePlanetSpeeds() {
   planets.forEach((planet) => {
     planet.speed = planet.baseSpeed * speedMultiplier;
   });
-  velocidadeDisplay.textContent = speedMultiplier / 10;
+  speedDisplay.textContent = speedMultiplier / 10;
 }
 
 // Botão de aumentar velocidade
-velocidadeMaisBtn.addEventListener('click', () => {
+speedUpBtn.addEventListener('click', () => {
   speedMultiplier += 10;
   updatePlanetSpeeds();
 });
 
 // Botão de diminuir velocidade
-velocidadeMenosBtn.addEventListener('click', () => {
+speedDownBtn.addEventListener('click', () => {
   if (speedMultiplier > 1) {
     speedMultiplier -= 10;
     updatePlanetSpeeds();
