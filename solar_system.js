@@ -30,8 +30,13 @@ const textures = {
   mercury: textureLoader.load('textures/mercury.jpg'),
   venus: textureLoader.load('textures/venus.jpg'),
   earth: textureLoader.load('textures/earth.jpg'),
+  moon: textureLoader.load('textures/moon.jpg'),
   mars: textureLoader.load('textures/mars.jpg'),
   jupiter: textureLoader.load('textures/jupiter.jpg'),
+  europa: textureLoader.load('textures/europa.jpg'),
+  ganymede: textureLoader.load('textures/ganymede.jpg'),
+  io: textureLoader.load('textures/io.jpg'),
+  callisto: textureLoader.load('textures/callisto.jpg'),
   saturn: textureLoader.load('textures/saturn.jpg'),
   saturnRings: textureLoader.load('textures/saturn_ring.png'),
   uranus: textureLoader.load('textures/uranus.jpg'),
@@ -47,6 +52,21 @@ const createPlanet = (size, texture, x) => {
   mesh.position.x = x;
   return mesh;
 };
+
+const createMoon = (size, texture, distance, speed) => {
+  const geometry = new THREE.SphereGeometry(size, 16, 16);
+  const material = new THREE.MeshStandardMaterial({ map: texture });
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.x = distance;
+  mesh.orbitSpeed = speed;
+  return mesh;
+};
+
+const moon = createMoon(0.3, textures.moon, 2.5, 0.005); // Lua da Terra
+const io = createMoon(0.3, textures.io, 3, 0.005); // Lua Ío
+const europa = createMoon(0.3, textures.europa, 4, 0.004); // Lua Europa
+const ganymede = createMoon(0.4, textures.ganymede, 5, 0.003); // Lua Ganimedes
+const callisto = createMoon(0.4, textures.callisto, 6, 0.002); // Lua Calisto
 
 const sun = createPlanet(5, textures.sun, 0);
 scene.add(sun);
@@ -162,6 +182,15 @@ planets.forEach((planet) => {
   }
 });
 
+const earth = planets.find((planet) => planet.name === 'earth');
+earth.mesh.add(moon);
+
+const jupiter = planets.find((planet) => planet.name === 'jupiter');
+jupiter.mesh.add(io);
+jupiter.mesh.add(europa);
+jupiter.mesh.add(ganymede);
+jupiter.mesh.add(callisto);
+
 // Configuração inicial da câmera
 camera.position.set(40, 20, 60);
 
@@ -199,9 +228,34 @@ const animate = () => {
     const angle = Date.now() * 0.001 * planet.speed;
     planet.mesh.position.x = Math.cos(angle) * planet.distance;
     planet.mesh.position.z = Math.sin(angle) * planet.distance;
-
+    
     if (selectedPlanet === planet.mesh) {
       selectedPlanetOrbitAngle = angle;
+    }
+
+    if (planet.name === 'earth') {
+      const moonAngle = Date.now() * 0.001 * moon.orbitSpeed;
+      moon.position.x = Math.cos(moonAngle) * 2.5;
+      moon.position.z = Math.sin(moonAngle) * 2.5;
+    }
+
+    if (planet.name === 'jupiter') {
+      const ioAngle = Date.now() * 0.001 * io.orbitSpeed;
+      const europaAngle = Date.now() * 0.001 * europa.orbitSpeed;
+      const ganymedeAngle = Date.now() * 0.001 * ganymede.orbitSpeed;
+      const calistoAngle = Date.now() * 0.001 * callisto.orbitSpeed;
+
+      io.position.x = Math.cos(ioAngle) * 2.5;
+      io.position.z = Math.sin(ioAngle) * 2.5;
+
+      europa.position.x = Math.cos(europaAngle) * 3.5;
+      europa.position.z = Math.sin(europaAngle) * 3.5;
+
+      ganymede.position.x = Math.cos(ganymedeAngle) * 4.5;
+      ganymede.position.z = Math.sin(ganymedeAngle) * 4.5;
+
+      callisto.position.x = Math.cos(calistoAngle) * 5.5;
+      callisto.position.z = Math.sin(calistoAngle) * 5.5;
     }
   });
 
@@ -221,7 +275,7 @@ const animate = () => {
       camera.lookAt(selectedPlanet.position);
     }
   }
-
+  
   controls.update();
   renderer.render(scene, camera);
 };
