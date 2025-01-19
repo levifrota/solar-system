@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Titillium+Web:wght@200;300;400&display=swap');
+
 * {
   box-sizing: border-box;
 }
 
 body {
+  font-family: 'Roboto', serif;
   overflow: hidden;
   margin: 0;
   padding: 0;
@@ -146,10 +149,13 @@ body {
 }
 
 #informacoes {
+  font-family: 'Roboto', serif;
+  font-weight: 200;
+  font-style: normal;
   position: fixed;
   top: 15%;
   left: -100%;
-  width: 30%; 
+  width: 30%;
   height: max-content;
   z-index: 8;
   border-radius: 5px;
