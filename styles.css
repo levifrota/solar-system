@@ -11,6 +11,11 @@ body {
   padding: 0;
 }
 
+h1, h2, h3, h4, h5, h6{
+  margin: 0;
+  padding: 0;
+}
+
 #botaoView {
   position: fixed;
   right: 20px;
@@ -35,7 +40,7 @@ body {
   text-align: center;
   position: fixed;
   right: 20px;
-  top: 50%;
+  bottom: 2%;
   transform: translateY(-50%);
   padding: 10px;
   background-color: #308cca;
@@ -180,6 +185,7 @@ body {
   text-align: justify;
   flex-direction: column;
   color: white;
+  gap: 8px;
 }
 
 h1 {
@@ -195,7 +201,7 @@ h1 {
 
 #info-speed {
   position: fixed;
-  bottom: 61%;
+  top: 20%;
   right: 20px;
   background-color: #2e86c1;
   color: white;
