@@ -18,10 +18,26 @@
   <body>
     <button type="button" id="botaoView">View</button>
 
-    <div id="velocidade">
-      <button type="button" id="velocidadeMais">+</button>
-      <p id="velocidadeDisplay">1</p>
-      <button type="button" id="velocidadeMenos">-</button>
+    <div id="info-speed">
+      <p>Os botões abaixo controlam a velocidade dos planetas:</p>
+      <div class="keys">
+        <div class="line">
+          <span class="key">+</span>
+          <span class="key">=</span>
+          <span class="key">↑</span>
+        </div>
+        <div class="line">
+          <span class="key">-</span>
+          <span class="key">_</span>
+          <span class="key">↓</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="speed">
+      <button type="button" id="speedUp">+</button>
+      <p id="speedDisplay">1</p>
+      <button type="button" id="speedDown">-</button>
     </div>
 
     <button type="button" id="viewOrbit">Órbitas</button>
@@ -39,7 +55,7 @@
       </div>
     </div>
 
-    <div id="informacoes" style="pointer-events: none;">
+    <div id="informations" style="pointer-events: none;">
       <div>
         <h3 id="infoTitle"></h3>
         <h4 id="infoDescription"></h4>

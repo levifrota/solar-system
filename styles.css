@@ -26,11 +26,12 @@ body {
   z-index: 10;
 }
 
-#botaoView:hover {
+#botaoView:hover,
+#viewOrbit:hover {
   background-color: #2980b9;
 }
 
-#velocidade {
+#speed {
   text-align: center;
   position: fixed;
   right: 20px;
@@ -41,7 +42,7 @@ body {
   border-radius: 50px;
 }
 
-#velocidade button {
+#speed button {
   background-color: #1d78b4;
   width: 30px;
   height: 30px;
@@ -51,7 +52,7 @@ body {
   cursor: pointer;
 }
 
-#velocidade button:hover {
+#speed button:hover {
   background-color: #2980b9;
 }
 
@@ -148,7 +149,7 @@ body {
   }
 }
 
-#informacoes {
+#informations {
   font-family: 'Roboto', serif;
   font-weight: 200;
   font-style: normal;
@@ -164,7 +165,7 @@ body {
   transform: translateX(-100%);
 }
 
-#informacoes.active {
+#informations.active {
   left: 20px;
   transform: translateX(0);
   visibility: visible;
@@ -173,7 +174,7 @@ body {
   pointer-events: auto;
 }
 
-#informacoes div {
+#informations div {
   user-select: none;
   display: flex;
   text-align: justify;
@@ -190,4 +191,53 @@ h1 {
 #backButton {
   position: absolute;
   margin-left: 20px;
+}
+
+#info-speed {
+  position: fixed;
+  bottom: 61%;
+  right: 20px;
+  background-color: #2e86c1;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: 'Roboto', sans-serif;
+  text-align: center;
+  z-index: 10;
+  width: 200px;
+}
+
+#info-speed p {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+}
+
+.keys {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.line {
+  display: flex;
+  gap: 5px;
+}
+
+.key {
+  background-color: #34495e;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  user-select: none;
+}
+
+.key:hover {
+  background-color: #3d566e;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
 }
