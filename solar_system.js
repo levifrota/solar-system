@@ -81,7 +81,6 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 const onPlanetClick = (event) => {
-    console.log("2b")
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
@@ -190,37 +189,37 @@ const infoDescription = document.getElementById("infoDescription");
 const viewMode=()=>{
     camera.position.set(40, 20, 60);
     selectedPlanet = null;
+    infoDiv.classList.remove("active");
+    showInfoPlanet = null;
 }
 
 let showInfoPlanet = null;
 
 const showPlanetInfo = (planetName) => {
+    const planet = planetInfos.find((p) => p.identify === planetName);
+    if (!planet) return;
+
     if (showInfoPlanet === planetName) {
         infoDiv.classList.remove("active");
         showInfoPlanet = null;
     } else {
-        const planet = planetInfos.find((p) => p.identify === planetName);
+        infoTitle.textContent = planet.nome;
+        infoDescription.textContent = planet.descricao;
+        infoDiv.classList.add("active");
+        showInfoPlanet = planetName;
 
-        if (planet) {
-            infoTitle.textContent = planet.nome;
-            infoDescription.textContent = planet.descricao;
-            infoDiv.classList.add("active");
-            showInfoPlanet = planetName;
+        const selectedPlanetInScene = planets.find((p) => p.name === planet.identify);
+        if (selectedPlanetInScene) {
+            selectedPlanet = selectedPlanetInScene.mesh;
 
-            const selectedPlanetInScene = planets.find((p) => p.name === planet.identify);
-            console.log(selectedPlanetInScene);
-
-            if (selectedPlanetInScene) {
-                selectedPlanet = selectedPlanetInScene.mesh;
-
-                const planetPosition = selectedPlanetInScene.mesh.position;
-                console.log("4e", planetPosition);
-
-                const cameraOffset = new THREE.Vector3(3, 2, 3);
-                camera.position.set(planetPosition.x + cameraOffset.x, planetPosition.y + cameraOffset.y, planetPosition.z + cameraOffset.z);
-
-                camera.lookAt(planetPosition);
-            }
+            const planetPosition = selectedPlanetInScene.mesh.position;
+            const cameraOffset = new THREE.Vector3(3, 2, 3);
+            camera.position.set(
+                planetPosition.x + cameraOffset.x,
+                planetPosition.y + cameraOffset.y,
+                planetPosition.z + cameraOffset.z
+            );
+            camera.lookAt(planetPosition);
         }
     }
 };
