@@ -11,6 +11,16 @@ body {
   padding: 0;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
 #botaoView {
   position: fixed;
   right: 20px;
@@ -35,7 +45,7 @@ body {
   text-align: center;
   position: fixed;
   right: 20px;
-  top: 50%;
+  bottom: 2%;
   transform: translateY(-50%);
   width: 200px;
   display: flex;
@@ -255,6 +265,7 @@ body {
   text-align: justify;
   flex-direction: column;
   color: white;
+  gap: 8px;
 }
 
 h1 {
