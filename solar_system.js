@@ -53,6 +53,7 @@ scene.add(sun);
 
 let speedMultiplier = 10;
 
+// Adiciona as configurações de cada planeta
 const planets = [
   {
     mesh: createPlanet(0.5, textures.mercury, 8),
@@ -114,8 +115,7 @@ const planets = [
   },
 ];
 
-var orbit = true;
-
+// Cria as trajetórias dos planetas
 planets.forEach((planet) => {
   scene.add(planet.mesh);
   const trajectoryGeometry = new THREE.RingGeometry(
@@ -133,6 +133,33 @@ planets.forEach((planet) => {
   trajectory.rotation.x = Math.PI / 2;
   trajectory.name = `orbit-${planet.name}`; // Nomeia a órbita para controle posterior
   scene.add(trajectory);
+
+  // Adiciona os anéis em Saturno e Urano
+  if (planet.rings) {
+    if (planet.name === 'saturn') {
+      const ringGeometry = new THREE.RingGeometry(2, 3, 128);
+      const ringMaterial = new THREE.MeshStandardMaterial({
+        map: textures.saturnRings,
+        side: THREE.DoubleSide,
+        transparent: true,
+      });
+      const saturnRings = new THREE.Mesh(ringGeometry, ringMaterial);
+      saturnRings.rotation.x = Math.PI / 2;
+      planet.ringsMesh = saturnRings;
+      planet.mesh.add(saturnRings);
+    } else if (planet.name === 'uranus') {
+      const ringGeometry = new THREE.RingGeometry(1.5, 2.5, 128);
+      const ringMaterial = new THREE.MeshStandardMaterial({
+        map: textures.uranusRings,
+        side: THREE.DoubleSide,
+        transparent: true,
+      });
+      const uranusRings = new THREE.Mesh(ringGeometry, ringMaterial);
+      uranusRings.rotation.x = Math.PI / 2;
+      planet.ringsMesh = uranusRings;
+      planet.mesh.add(uranusRings);
+    }
+  }
 });
 
 // Configuração inicial da câmera
@@ -201,111 +228,112 @@ const animate = () => {
 
 animate();
 
+// Informações dos planetas
 const planetInfos = [
   {
     name: 'Mercúrio',
     identify: 'mercury',
     description: {
-      type: "Rochoso",
+      type: 'Rochoso',
       equatorialRadius: 2439.7,
       mass: 3.301e23,
       gravity: 3.7,
       distanceFromSun: 57.91e6,
       rotationTime: 1406.4,
-      translationTime: 88
-    }
+      translationTime: 88,
+    },
   },
   {
     name: 'Vênus',
     identify: 'venus',
     description: {
-      type: "Rochoso",
+      type: 'Rochoso',
       equatorialRadius: 6051.8,
       mass: 4.867e24,
       gravity: 8.87,
       distanceFromSun: 108.2e6,
       rotationTime: -5832,
-      translationTime: 225
-    }
+      translationTime: 225,
+    },
   },
   {
     name: 'Terra',
     identify: 'earth',
     description: {
-      type: "Rochoso",
+      type: 'Rochoso',
       equatorialRadius: 6371,
       mass: 5.972e24,
       gravity: 9.8,
       distanceFromSun: 149.6e6,
       rotationTime: 24,
-      translationTime: 365
-    }
+      translationTime: 365,
+    },
   },
   {
     name: 'Marte',
     identify: 'mars',
     description: {
-      type: "Rochoso",
+      type: 'Rochoso',
       equatorialRadius: 3389.5,
       mass: 6.417e23,
       gravity: 3.71,
       distanceFromSun: 227.9e6,
       rotationTime: 24.7,
-      translationTime: 687
-    }
+      translationTime: 687,
+    },
   },
   {
     name: 'Júpiter',
     identify: 'jupiter',
     description: {
-      type: "Gasoso",
+      type: 'Gasoso',
       equatorialRadius: 69911,
       mass: 1.898e27,
       gravity: 24.79,
       distanceFromSun: 778.5e6,
       rotationTime: 9.84,
-      translationTime: 4333
-    }
+      translationTime: 4333,
+    },
   },
   {
     name: 'Saturno',
     identify: 'saturn',
     description: {
-      type: "Gasoso",
+      type: 'Gasoso',
       equatorialRadius: 58232,
       mass: 5.683e26,
       gravity: 10.44,
       distanceFromSun: 1.434e9,
       rotationTime: 10.8,
-      translationTime: 10759
-    }
+      translationTime: 10759,
+    },
   },
   {
     name: 'Urano',
     identify: 'uranus',
     description: {
-      type: "Gasoso",
+      type: 'Gasoso',
       equatorialRadius: 25362,
       mass: 8.681e25,
       gravity: 8.87,
       distanceFromSun: 2.871e9,
       rotationTime: -17.3,
-      translationTime: 30687
-    }
+      translationTime: 30687,
+    },
   },
   {
     name: 'Netuno',
     identify: 'neptune',
     description: {
-      type: "Gasoso",
+      type: 'Gasoso',
       equatorialRadius: 24622,
       mass: 1.024e26,
       gravity: 11.15,
       distanceFromSun: 4.495e9,
       rotationTime: 16.1,
-      translationTime: 60190
-    }
-  }
+      translationTime: 60190,
+    },
+  },
 ];
 
 // Elementos de informações
@@ -350,6 +378,8 @@ const showPlanetInfo = (planetName) => {
     const selectedPlanetInScene = planets.find(
       (p) => p.name === planet.identify
     );
+
+    // Trava a câmera na posição do planeta selecionado
     if (selectedPlanetInScene) {
       selectedPlanet = selectedPlanetInScene.mesh;
 
@@ -365,6 +395,7 @@ const showPlanetInfo = (planetName) => {
   }
 };
 
+// Botões dos planetas
 const planetButtons = document.querySelectorAll('#planetButtons button');
 
 planetButtons.forEach((button) => {
@@ -373,11 +404,13 @@ planetButtons.forEach((button) => {
   });
 });
 
+// Botão  para mostrar a vista geral
 const buttonView = document.querySelectorAll('#botaoView');
 buttonView.forEach((button) => {
   button.addEventListener('click', viewMode);
 });
 
+// Botões para mudar velocidade dos planetas
 const speedUpBtn = document.getElementById('speedUp');
 const speedDownBtn = document.getElementById('speedDown');
 const speedDisplay = document.getElementById('speedDisplay');
