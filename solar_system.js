@@ -205,57 +205,119 @@ const planetInfos = [
   {
     name: 'Mercúrio',
     identify: 'mercury',
-    description:
-      'É o planeta mais próximo do Sol e o menor do Sistema Solar. Não possui atmosfera significativa e tem temperaturas extremas, variando de -180°C à noite a 430°C durante o dia. Possui uma rotação lenta, e um dia (do nascer ao pôr do sol) dura cerca de 176 dias terrestres.',
+    description: {
+      type: "Rochoso",
+      equatorialRadius: 2439.7,
+      mass: 3.301e23,
+      gravity: 3.7,
+      distanceFromSun: 57.91e6,
+      rotationTime: 1406.4,
+      translationTime: 88
+    }
   },
   {
     name: 'Vênus',
     identify: 'venus',
-    description:
-      "Vênus, conhecido como o 'irmão gêmeo da Terra' devido ao seu tamanho e composição similares, tem uma atmosfera densa composta principalmente de dióxido de carbono, criando um efeito estufa extremo. A temperatura média na superfície é de cerca de 467°C, tornando-o o planeta mais quente do Sistema Solar.",
+    description: {
+      type: "Rochoso",
+      equatorialRadius: 6051.8,
+      mass: 4.867e24,
+      gravity: 8.87,
+      distanceFromSun: 108.2e6,
+      rotationTime: -5832,
+      translationTime: 225
+    }
   },
   {
     name: 'Terra',
     identify: 'earth',
-    description:
-      'Terra é o único planeta conhecido por abrigar vida, devido à sua atmosfera rica em oxigênio e água líquida em sua superfície. Ela tem um campo magnético que protege contra radiações solares prejudiciais. Sua órbita ao redor do Sol leva cerca de 365,25 dias, o que define um ano.',
+    description: {
+      type: "Rochoso",
+      equatorialRadius: 6371,
+      mass: 5.972e24,
+      gravity: 9.8,
+      distanceFromSun: 149.6e6,
+      rotationTime: 24,
+      translationTime: 365
+    }
   },
   {
     name: 'Marte',
     identify: 'mars',
-    description:
-      "Marte, conhecido como o 'Planeta Vermelho' devido à sua superfície rica em óxido de ferro, possui a maior montanha do Sistema Solar, o Monte Olimpo, e um sistema de vales e desfiladeiros gigantescos. Marte tem calotas polares de dióxido de carbono e água congelada.",
+    description: {
+      type: "Rochoso",
+      equatorialRadius: 3389.5,
+      mass: 6.417e23,
+      gravity: 3.71,
+      distanceFromSun: 227.9e6,
+      rotationTime: 24.7,
+      translationTime: 687
+    }
   },
   {
     name: 'Júpiter',
     identify: 'jupiter',
-    description:
-      'Júpiter, o maior planeta do Sistema Solar, tem uma massa mais de 300 vezes maior que a da Terra. É um gigante gasoso composto principalmente de hidrogênio e hélio, e sua Grande Mancha Vermelha é uma tempestade gigante que já dura séculos.',
+    description: {
+      type: "Gasoso",
+      equatorialRadius: 69911,
+      mass: 1.898e27,
+      gravity: 24.79,
+      distanceFromSun: 778.5e6,
+      rotationTime: 9.84,
+      translationTime: 4333
+    }
   },
   {
     name: 'Saturno',
     identify: 'saturn',
-    description:
-      'Saturno é famoso pelos seus anéis, compostos de partículas de gelo e rocha. Também é um gigante gasoso, similar a Júpiter, e tem dezenas de luas, incluindo Titã, que possui uma atmosfera densa. O planeta é composto principalmente de hidrogênio e hélio e tem uma gravidade muito baixa.',
+    description: {
+      type: "Gasoso",
+      equatorialRadius: 58232,
+      mass: 5.683e26,
+      gravity: 10.44,
+      distanceFromSun: 1.434e9,
+      rotationTime: 10.8,
+      translationTime: 10759
+    }
   },
   {
     name: 'Urano',
     identify: 'uranus',
-    description:
-      'Urano é um gigante gasoso com uma rotação peculiar, já que gira praticamente de lado em relação ao plano da sua órbita. Seu eixo de rotação é inclinado em cerca de 98°, tornando seus dias e estações muito peculiares. É composto principalmente de hidrogênio, hélio e água, amônia e metano, que lhe conferem uma cor azul-esverdeada.',
+    description: {
+      type: "Gasoso",
+      equatorialRadius: 25362,
+      mass: 8.681e25,
+      gravity: 8.87,
+      distanceFromSun: 2.871e9,
+      rotationTime: -17.3,
+      translationTime: 30687
+    }
   },
   {
     name: 'Netuno',
     identify: 'neptune',
-    description:
-      'Netuno, o planeta mais distante do Sol e o último do Sistema Solar, possui uma atmosfera composta de hidrogênio, hélio e metano, que lhe dá sua cor azul intensa. Netuno é conhecido por seus ventos extremamente fortes, os mais rápidos do Sistema Solar, e tem uma tempestade permanente chamada Grande Mancha Escura.',
-  },
+    description: {
+      type: "Gasoso",
+      equatorialRadius: 24622,
+      mass: 1.024e26,
+      gravity: 11.15,
+      distanceFromSun: 4.495e9,
+      rotationTime: 16.1,
+      translationTime: 60190
+    }
+  }
 ];
 
 // Elementos de informações
 const infoDiv = document.getElementById('informations');
-const infoTitle = document.getElementById('infoTitle');
-const infoDescription = document.getElementById('infoDescription');
+const infoPlanetName = document.getElementById('planetName');
+const infoPlanetType = document.getElementById('type');
+const infoPlanetEquatorialRadius = document.getElementById('equatorialRadius');
+const infoPlanetMass = document.getElementById('mass');
+const infoPlanetGravity = document.getElementById('gravity');
+const infoPlanetDistanceFromSun = document.getElementById('distanceFromSun');
+const infoPlanetRotationTime = document.getElementById('rotationTime');
+const infoPlanetTranslationTime = document.getElementById('translationTime');
 
 const viewMode = () => {
   camera.position.set(40, 20, 60);
@@ -274,8 +336,14 @@ const showPlanetInfo = (planetName) => {
     infoDiv.classList.remove('active');
     showInfoPlanet = null;
   } else {
-    infoTitle.textContent = planet.name;
-    infoDescription.textContent = planet.description;
+    infoPlanetName.textContent = planet.name;
+    infoPlanetType.textContent = `Tipo: ${planet.description.type}`;
+    infoPlanetEquatorialRadius.textContent = `Raio Equatorial: ${planet.description.equatorialRadius} km`;
+    infoPlanetMass.textContent = `Massa: ${planet.description.mass} kg`;
+    infoPlanetGravity.textContent = `Gravidade: ${planet.description.gravity} m/s²`;
+    infoPlanetDistanceFromSun.textContent = `Distância do Sol: ${planet.description.distanceFromSun} km`;
+    infoPlanetRotationTime.textContent = `Tempo de Rotação: ${planet.description.rotationTime} horas`;
+    infoPlanetTranslationTime.textContent = `Tempo de Translação: ${planet.description.translationTime} dias`;
     infoDiv.classList.add('active');
     showInfoPlanet = planetName;
 
