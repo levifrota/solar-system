@@ -11,8 +11,11 @@ Sistema solar feito com Three.js
 
 ## Funcionalidades
 
-- Mudança de velocidade através de botões
-- Clicar nos planetas para revelar informações
-  ![Informações dos planetas]()
-- Mostrar e esconder órbitas
+- ![Mudança de velocidade através de botões](images-readme/image-1.png)
+- ![Informações dos planetas](images-readme/image.png)
+- ![Mostrar e esconder órbitas](images-readme/image-2.png)
 - Multiplataforma
+
+### Demonstração
+
+- [Link do vídeo](https://youtu.be/MJVSvTSti24)
