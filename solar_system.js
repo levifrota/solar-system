@@ -239,6 +239,10 @@ const animate = () => {
       moon.position.z = Math.sin(moonAngle) * 2.5;
     }
 
+    if (planet.name === 'venus') {
+      planet.mesh.rotation.y -= 0.02;
+    }
+
     if (planet.name === 'jupiter') {
       const ioAngle = Date.now() * 0.001 * io.orbitSpeed;
       const europaAngle = Date.now() * 0.001 * europa.orbitSpeed;
@@ -248,14 +252,14 @@ const animate = () => {
       io.position.x = Math.cos(ioAngle) * 2.5;
       io.position.z = Math.sin(ioAngle) * 2.5;
 
-      europa.position.x = Math.cos(europaAngle) * 3.5;
-      europa.position.z = Math.sin(europaAngle) * 3.5;
+      europa.position.x = Math.cos(europaAngle) * 4.5;
+      europa.position.z = Math.sin(europaAngle) * 4.5;
 
-      ganymede.position.x = Math.cos(ganymedeAngle) * 4.5;
-      ganymede.position.z = Math.sin(ganymedeAngle) * 4.5;
+      ganymede.position.x = Math.cos(ganymedeAngle) * 5.1;
+      ganymede.position.z = Math.sin(ganymedeAngle) * 5.1;
 
-      callisto.position.x = Math.cos(calistoAngle) * 5.5;
-      callisto.position.z = Math.sin(calistoAngle) * 5.5;
+      callisto.position.x = Math.cos(calistoAngle) * 6.2;
+      callisto.position.z = Math.sin(calistoAngle) * 6.2;
     }
   });
 
