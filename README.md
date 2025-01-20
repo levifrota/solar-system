@@ -1,20 +1,22 @@
-# Sistema Solar 3D
+# Sistema Solar 3D - Three.js
 
-Sistema solar feito com Three.js
+Sistema solar feito com Three.js como avaliação para a disciplina de Computação Gráfica no semestre letivo 2024.2
 
 ## Autores
 
 - [Ailton Guarinho de Vasconcelos](https://github.com/AkowsS)
-- [Gideão Levi de Oliveira Frota](https://www.github.com/levifrota)
 - [Francisco Antônio Paiva de Sousa](https://github.com/fcooantonio)
+- [Gideão Levi de Oliveira Frota](https://www.github.com/levifrota)
 - [Thiago Marques Sousa](https://github.com/thiagomars)
 
 ## Funcionalidades
 
-- ![Mudança de velocidade através de botões](images-readme/image-1.png)
-- ![Informações dos planetas](images-readme/image.png)
-- ![Mostrar e esconder órbitas](images-readme/image-2.png)
-- Multiplataforma
+- Mudança de velocidade
+![Mudança de velocidade através de botões](images-readme/image-1.png)
+- Informações dos planetas
+![Informações dos planetas](images-readme/image.png)
+- Mostrar e esconder órbitas
+![Mostrar e esconder órbitas](images-readme/image-2.png)
 
 ### Demonstração
 
