@@ -8,6 +8,7 @@ Sistema solar feito com Three.js como avaliação para a disciplina de Computaç
 - [Francisco Antônio Paiva de Sousa](https://github.com/fcooantonio)
 - [Gideão Levi de Oliveira Frota](https://www.github.com/levifrota)
 - [Thiago Marques Sousa](https://github.com/thiagomars)
+- [Roberto de Andrade](https://github.com/Roberto10Andrade)
 
 ## Funcionalidades
 
